@@ -5,37 +5,27 @@
 *.dll
 *.lib
 *.pdb
-*.ilk
 *.exp
-*.so
-*.dylib
-*.a
-
+*.ilk
+*.sln
+*.vcxproj.user
+*.vcproj.user
+*.opensdf
+*.sdf
+ipch/
+*.iobj
+*.ipdb
 # Dependencies
 packages/
-
 # Logs and temp files
 *.log
 *.tmp
 *.swp
-
+# Environment
+.env
+.env.local
+*.env.*
 # Editors
 .vscode/
 .idea/
-
-# Windows-specific
-Thumbs.db
-Desktop.ini
-
-# macOS-specific
-.DS_Store
-
-# Build system
-Debug/
-Release/
-x64/
-x86/
-ipch/
-*.vcxproj.user
 ```
-/.vs/creative_project
