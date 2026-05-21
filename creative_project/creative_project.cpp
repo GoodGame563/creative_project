@@ -1,5 +1,5 @@
 // ============================================================================
-// NEON CYBER-CITY AT NIGHT - OpenGL Project (GLAD version)
+// NEON CYBER-CITY AT NIGHT - OpenGL Project (NuGet nupengl.core version)
 // ============================================================================
 // Высокие небоскрёбы, летающие машины, голограммы, мокрый асфальт с отражениями
 // Много цветных неоновых источников света (point + spot)
@@ -9,7 +9,8 @@
 // 2D: футуристический интерфейс с бегущей строкой и сканлайнами
 // ============================================================================
 
-#include <glad/glad.h>
+// Используем только nupengl.core (включает OpenGL, GLFW и GLM)
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,7 +39,7 @@ const int MAX_BILLBOARDS = 10;
 // Global Variables
 // ============================================================================
 GLFWwindow* window = nullptr;
-GLuint cityVAO, cityVBO, cityInstanceVBO;
+GLuint cityVAO, cityVBO, cityEBO, cityInstanceVBO;  // cityEBO добавлен для индексов
 GLuint roadVAO, roadVBO;
 GLuint carVAO, carVBO, carInstanceVBO;
 GLuint droneVAO, droneVBO, droneInstanceVBO;
@@ -63,6 +64,8 @@ float moveSpeed = 10.0f;
 int cameraMode = 0; // 0: Fly, 1: Drive
 
 float globalTime = 0.0f;
+bool useBloom = true;      // Включить/выключить bloom эффект
+bool showUI = true;        // Включить/выключить UI интерфейс
 
 struct Building {
     glm::vec3 position;
@@ -424,9 +427,10 @@ int main() {
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    // Initialize GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
+    // Инициализация GLEW (входит в nupengl.core)
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Failed to initialize GLEW" << std::endl;
         return -1;
     }
 
@@ -529,6 +533,7 @@ int main() {
     // Cleanup
     glDeleteVertexArrays(1, &cityVAO);
     glDeleteBuffers(1, &cityVBO);
+    glDeleteBuffers(1, &cityEBO);  // Очистка буфера индексов
     glDeleteVertexArrays(1, &roadVAO);
     glDeleteBuffers(1, &roadVBO);
     glDeleteVertexArrays(1, &carVAO);
