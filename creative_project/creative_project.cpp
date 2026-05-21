@@ -1,5 +1,5 @@
 // ============================================================================
-// NEON CYBER-CITY AT NIGHT - OpenGL Project (NuGet nupengl.core version)
+// NEON CYBER-CITY AT NIGHT - OpenGL Project (Standard OpenGL only)
 // ============================================================================
 // Высокие небоскрёбы, летающие машины, голограммы, мокрый асфальт с отражениями
 // Много цветных неоновых источников света (point + spot)
@@ -9,19 +9,20 @@
 // 2D: футуристический интерфейс с бегущей строкой и сканлайнами
 // ============================================================================
 
-// Используем только nupengl.core (включает OpenGL, GLFW и GLM)
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/noise.hpp>
+// Используем только стандартный OpenGL и Windows API
+// Все математические функции реализованы вручную без использования GLM
+// Загрузка функций OpenGL через wglGetProcAddress без использования GLEW
+// Создание окна через Win32 API без использования GLFW
+
+#include <windows.h>
+#include <GL/gl.h>
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <random>
 #include <string>
 #include <algorithm>
+#include <cstring>
 
 // ============================================================================
 // Constants
